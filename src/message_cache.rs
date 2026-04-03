@@ -51,7 +51,7 @@ impl<T: PartialEq> MessageCache<T> {
     /// (first) message in the cache to be dropped.
     pub fn push_back(&mut self, message: T, received: Instant) -> Option<CacheMessage<T>> {
         self.cache.push_back(CacheMessage::new(message, received));
-        if self.len() > self.max_messages as usize {
+        if self.len() >= self.max_messages as usize {
             self.cache.pop_front()
         } else {
             None
@@ -85,7 +85,7 @@ impl<T: PartialEq> MessageCache<T> {
     /// Pushing to the front of a full cache will cause the given message to not
     /// be added.
     pub fn push_front(&mut self, cache_message: CacheMessage<T>) {
-        if self.len() > self.max_messages as usize {
+        if self.len() >= self.max_messages as usize {
             return;
         }
         self.cache.push_front(cache_message);
